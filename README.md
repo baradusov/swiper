@@ -8,6 +8,17 @@ Swiper
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/nolimits4web/Swiper.svg)](https://greenkeeper.io/)
 
+**Disclaimer**: *This is the fork where I added new `stopImmediately` (boolean) parameter for autoplay. This can be useful together with autoplay methods mySwiper.autoplay.start() and mySwiper.autoplay.stop() if you want to stop immediately autoplay on mouse hover.*
+```
+  var mySwiper = new Swiper(".swiper", {
+    ...
+    autoplay: {
+      ...
+      stopImmediately: true
+    }
+  });
+```
+
 Swiper - is the free and most modern mobile touch slider with hardware accelerated transitions and amazing native behavior. It is intended to be used in mobile websites, mobile web apps, and mobile native/hybrid apps.
 
 Swiper is not compatible with all platforms, it is a modern touch slider which is focused only on modern apps/platforms to bring the best experience and simplicity.
