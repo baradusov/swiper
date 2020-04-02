@@ -45,6 +45,15 @@ const Autoplay = {
     const swiper = this;
     if (typeof swiper.autoplay.timeout !== 'undefined') return false;
     if (swiper.autoplay.running) return false;
+
+    if (swiper.params.autoplay.stopImmediately) {
+      var position = swiper.getTranslate();
+      swiper.setTransition(swiper.params.speed);
+      swiper.setTranslate(position);
+      swiper.updateActiveIndex();
+      swiper.updateSlidesClasses();
+    }
+
     swiper.autoplay.running = true;
     swiper.emit('autoplayStart');
     swiper.autoplay.run();
@@ -59,6 +68,17 @@ const Autoplay = {
       clearTimeout(swiper.autoplay.timeout);
       swiper.autoplay.timeout = undefined;
     }
+
+    if (swiper.params.autoplay.stopImmediately) {
+      var position = swiper.getTranslate();
+
+      swiper.setTransition(0);
+      swiper.setTranslate(position);
+      swiper.updateActiveIndex();
+      swiper.updateSlidesClasses();
+      swiper.animating = false;
+    }
+
     swiper.autoplay.running = false;
     swiper.emit('autoplayStop');
     return true;
@@ -89,6 +109,7 @@ export default {
       disableOnInteraction: true,
       stopOnLastSlide: false,
       reverseDirection: false,
+      stopImmediately: false,
     },
   },
   create() {

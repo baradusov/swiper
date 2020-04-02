@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: February 29, 2020
+ * Released on: April 2, 2020
  */
 
 (function (global, factory) {
@@ -1794,7 +1794,7 @@
     if (previousRealIndex !== realIndex) {
       swiper.emit('realIndexChange');
     }
-    if (swiper.initialized || swiper.runCallbacksOnInit) {
+    if (swiper.initialized || swiper.params.runCallbacksOnInit) {
       swiper.emit('slideChange');
     }
   }
@@ -7787,6 +7787,15 @@
       var swiper = this;
       if (typeof swiper.autoplay.timeout !== 'undefined') { return false; }
       if (swiper.autoplay.running) { return false; }
+
+      if (swiper.params.autoplay.stopImmediately) {
+        var position = swiper.getTranslate();
+        swiper.setTransition(swiper.params.speed);
+        swiper.setTranslate(position);
+        swiper.updateActiveIndex();
+        swiper.updateSlidesClasses();
+      }
+
       swiper.autoplay.running = true;
       swiper.emit('autoplayStart');
       swiper.autoplay.run();
@@ -7801,6 +7810,17 @@
         clearTimeout(swiper.autoplay.timeout);
         swiper.autoplay.timeout = undefined;
       }
+
+      if (swiper.params.autoplay.stopImmediately) {
+        var position = swiper.getTranslate();
+
+        swiper.setTransition(0);
+        swiper.setTranslate(position);
+        swiper.updateActiveIndex();
+        swiper.updateSlidesClasses();
+        swiper.animating = false;
+      }
+
       swiper.autoplay.running = false;
       swiper.emit('autoplayStop');
       return true;
@@ -7831,6 +7851,7 @@
         disableOnInteraction: true,
         stopOnLastSlide: false,
         reverseDirection: false,
+        stopImmediately: false,
       },
     },
     create: function create() {
